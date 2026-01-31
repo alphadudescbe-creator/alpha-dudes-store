@@ -45,7 +45,7 @@ header {
 
 .container {
   padding: 12px;
-  padding-bottom: 140px;
+  padding-bottom: 160px;
 }
 
 .product {
@@ -123,7 +123,7 @@ header {
 
 .whatsapp-float {
   position: fixed;
-  bottom: 90px;
+  bottom: 100px;
   right: 18px;
   background: #25D366;
   color: #fff;
@@ -157,7 +157,6 @@ header {
 
 <div class="container">
 
-  <!-- TOYS -->
   <div class="product toys">
     <img src="https://via.placeholder.com/400x250?text=Floating+Fish+Toy">
     <h2>Floating Fish Toy</h2>
@@ -169,7 +168,6 @@ header {
     </div>
   </div>
 
-  <!-- ACCESSORIES -->
   <div class="product accessories">
     <img src="https://via.placeholder.com/400x250?text=Aquarium+Air+Stone">
     <h2>Aquarium Air Stone</h2>
@@ -181,9 +179,8 @@ header {
     </div>
   </div>
 
-  <!-- DECOR -->
   <div class="product decor">
-    <img src="https://via.placeholder.com/400x250?text=Aquarium+Decor">
+    <img src="https://via.placeholder.com/400x250?text=Artificial+Coral">
     <h2>Artificial Coral Decor</h2>
     <div class="price">₹499</div>
     <div class="qty-box">
@@ -196,15 +193,31 @@ header {
 </div>
 
 <div class="cart">
-  <div class="cart-summary" id="cartSummary">
-    Cart: 0 items | Total ₹0
-  </div>
-  <button onclick="sendWhatsAppOrder()">Send Order on WhatsApp</button>
+  <div class="cart-summary" id="cartSummary">Cart: 0 items | Total ₹0</div>
+  <button onclick="openForm()">Send Order on WhatsApp</button>
 </div>
 
 <a class="whatsapp-float"
-   href="https://wa.me/917639348470?text=Hi%20Alpha%20Dudes%20🐠%0AI%20have%20an%20enquiry%20about%20your%20aquarium%20products"
+   href="https://wa.me/917639348470"
    target="_blank">💬</a>
+
+<!-- ORDER FORM -->
+<div id="orderForm" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:1000;">
+  <div style="background:#fff; max-width:420px; margin:10% auto; padding:20px; border-radius:14px;">
+    <h3>Customer Details</h3>
+    <input id="custName" placeholder="Your Name" style="width:100%; padding:10px; margin:8px 0;">
+    <input id="custPhone" placeholder="Mobile Number" style="width:100%; padding:10px; margin:8px 0;">
+    <input id="custLocation" placeholder="Location / Area" style="width:100%; padding:10px; margin:8px 0;">
+    <select id="deliveryType" style="width:100%; padding:10px; margin:8px 0;">
+      <option value="Pickup">Pickup</option>
+      <option value="Home Delivery">Home Delivery</option>
+    </select>
+    <button onclick="confirmOrder()" style="width:100%; padding:12px; background:#25D366; color:#fff; border:none; border-radius:8px; font-weight:bold;">
+      Confirm & Send to WhatsApp
+    </button>
+    <button onclick="closeForm()" style="width:100%; padding:10px; margin-top:6px;">Cancel</button>
+  </div>
+</div>
 
 <script>
 let cart = [];
@@ -212,21 +225,20 @@ let cart = [];
 function filterCategory(cat, btn) {
   document.querySelectorAll(".categories button").forEach(b => b.classList.remove("active"));
   btn.classList.add("active");
-
   document.querySelectorAll(".product").forEach(p => {
     p.style.display = (cat === "all" || p.classList.contains(cat)) ? "block" : "none";
   });
 }
 
 function addToCart(name, price) {
-  const item = cart.find(i => i.name === name);
+  let item = cart.find(i => i.name === name);
   if (item) item.qty++;
   else cart.push({ name, price, qty: 1 });
   updateCart();
 }
 
 function decreaseQty(name) {
-  const item = cart.find(i => i.name === name);
+  let item = cart.find(i => i.name === name);
   if (!item) return;
   item.qty--;
   if (item.qty <= 0) cart = cart.filter(i => i.name !== name);
@@ -235,34 +247,53 @@ function decreaseQty(name) {
 
 function updateCart() {
   let items = 0, total = 0;
-
   cart.forEach(i => {
     items += i.qty;
     total += i.qty * i.price;
     document.getElementById("qty-" + i.name).innerText = i.qty;
   });
-
   document.querySelectorAll(".qty-box span").forEach(s => {
     if (!cart.find(i => "qty-" + i.name === s.id)) s.innerText = 0;
   });
-
   document.getElementById("cartSummary").innerText =
     `Cart: ${items} items | Total ₹${total}`;
 }
 
-function sendWhatsAppOrder() {
+function openForm() {
   if (cart.length === 0) {
     alert("Cart is empty!");
     return;
   }
+  document.getElementById("orderForm").style.display = "block";
+}
 
-  let msg = "Hi Alpha Dudes 🐠%0AOrder Details:%0A";
+function closeForm() {
+  document.getElementById("orderForm").style.display = "none";
+}
+
+function confirmOrder() {
+  const name = custName.value.trim();
+  const phone = custPhone.value.trim();
+  const location = custLocation.value.trim();
+  const delivery = deliveryType.value;
+
+  if (!name || !phone || !location) {
+    alert("Please fill all details");
+    return;
+  }
+
+  let msg = `Hi Alpha Dudes 🐠%0A%0AName: ${name}%0AMobile: ${phone}%0ALocation: ${location}%0ADelivery: ${delivery}%0A%0AOrder:%0A`;
+  let total = 0;
+
   cart.forEach((i, n) => {
     msg += `${n+1}. ${i.name} x ${i.qty} = Rs ${i.qty*i.price}%0A`;
+    total += i.qty * i.price;
   });
-  msg += `%0ATotal Amount: Rs ${cart.reduce((s,i)=>s+i.qty*i.price,0)}`;
+
+  msg += `%0ATotal Amount: Rs ${total}`;
 
   window.open("https://wa.me/917639348470?text=" + msg, "_blank");
+  closeForm();
 }
 </script>
 
