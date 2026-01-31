@@ -6,17 +6,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
+* { box-sizing: border-box; }
+
 body {
   margin: 0;
   font-family: Arial, sans-serif;
   background: #f1f9ff;
 }
+
 header {
   background: linear-gradient(135deg, #0077b6, #0096c7);
   color: #fff;
   text-align: center;
   padding: 18px;
 }
+
 .categories {
   display: flex;
   gap: 10px;
@@ -24,49 +28,72 @@ header {
   overflow-x: auto;
   background: #fff;
 }
+
 .categories button {
-  flex: 1;
-  padding: 10px;
+  padding: 10px 16px;
   border: none;
   border-radius: 20px;
   background: #e6f4ff;
   font-weight: bold;
+  white-space: nowrap;
 }
+
 .categories button.active {
   background: #0077b6;
   color: #fff;
 }
+
 .container {
   padding: 12px;
+  padding-bottom: 140px;
 }
+
 .product {
   background: #fff;
-  border-radius: 12px;
+  border-radius: 14px;
   padding: 14px;
-  margin-bottom: 14px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  margin-bottom: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
+
 .product img {
   width: 100%;
-  border-radius: 10px;
+  border-radius: 12px;
 }
+
 .product h2 {
   margin: 8px 0 4px;
   font-size: 18px;
 }
+
 .price {
   font-weight: bold;
   margin: 6px 0;
 }
-.add-btn {
-  width: 100%;
-  padding: 12px;
+
+.qty-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.qty-box button {
+  width: 42px;
+  height: 36px;
+  border: none;
+  border-radius: 6px;
+  font-size: 20px;
+  font-weight: bold;
   background: #0077b6;
   color: #fff;
-  border: none;
-  border-radius: 8px;
-  font-size: 15px;
 }
+
+.qty-box span {
+  font-size: 16px;
+  font-weight: bold;
+}
+
 .cart {
   position: fixed;
   bottom: 0;
@@ -75,7 +102,14 @@ header {
   background: #fff;
   border-top: 2px solid #eee;
   padding: 12px;
+  z-index: 998;
 }
+
+.cart-summary {
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
 .cart button {
   width: 100%;
   padding: 14px;
@@ -86,11 +120,8 @@ header {
   font-size: 16px;
   font-weight: bold;
 }
-.cart-summary {
-  font-size: 14px;
-  margin-bottom: 8px;
-}
-  .whatsapp-float {
+
+.whatsapp-float {
   position: fixed;
   bottom: 90px;
   right: 18px;
@@ -107,29 +138,6 @@ header {
   box-shadow: 0 4px 10px rgba(0,0,0,0.25);
   z-index: 999;
 }
-.whatsapp-float:active {
-  opacity: 0.85;
-}
-  .qty-box {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 10px;
-}
-.qty-box button {
-  width: 42px;
-  height: 36px;
-  border: none;
-  border-radius: 6px;
-  font-size: 18px;
-  font-weight: bold;
-  background: #0077b6;
-  color: #fff;
-}
-.qty-box span {
-  font-size: 16px;
-  font-weight: bold;
-}
 </style>
 </head>
 
@@ -140,12 +148,11 @@ header {
   <p>Aquarium Toys & Accessories</p>
 </header>
 
-<!-- CATEGORY BUTTONS -->
 <div class="categories">
-  <button class="active" onclick="filterCategory('all', this)">All</button>
-  <button onclick="filterCategory('toys', this)">🧸 Toys</button>
-  <button onclick="filterCategory('accessories', this)">⚙️ Accessories</button>
-  <button onclick="filterCategory('decor', this)">🪸 Decor</button>
+  <button class="active" onclick="filterCategory('all',this)">All</button>
+  <button onclick="filterCategory('toys',this)">🧸 Toys</button>
+  <button onclick="filterCategory('accessories',this)">⚙️ Accessories</button>
+  <button onclick="filterCategory('decor',this)">🪸 Decor</button>
 </div>
 
 <div class="container">
@@ -156,10 +163,11 @@ header {
     <h2>Floating Fish Toy</h2>
     <div class="price">₹299</div>
     <div class="qty-box">
-  <button onclick="decreaseQty('Floating Fish Toy')">−</button>
-  <span id="qty-Floating Fish Toy">0</span>
-  <button onclick="addToCart('Floating Fish Toy',299)">+</button>
-</div>
+      <button onclick="decreaseQty('Floating Fish Toy')">−</button>
+      <span id="qty-Floating Fish Toy">0</span>
+      <button onclick="addToCart('Floating Fish Toy',299)">+</button>
+    </div>
+  </div>
 
   <!-- ACCESSORIES -->
   <div class="product accessories">
@@ -167,73 +175,75 @@ header {
     <h2>Aquarium Air Stone</h2>
     <div class="price">₹199</div>
     <div class="qty-box">
-  <button onclick="decreaseQty('Aquarium Air Stone')">−</button>
-  <span id="qty-Aquarium Air Stone">0</span>
-  <button onclick="addToCart('Aquarium Air Stone',199)">+</button>
-</div>
-    
+      <button onclick="decreaseQty('Aquarium Air Stone')">−</button>
+      <span id="qty-Aquarium Air Stone">0</span>
+      <button onclick="addToCart('Aquarium Air Stone',199)">+</button>
+    </div>
+  </div>
+
   <!-- DECOR -->
   <div class="product decor">
     <img src="https://via.placeholder.com/400x250?text=Aquarium+Decor">
     <h2>Artificial Coral Decor</h2>
     <div class="price">₹499</div>
-    <button onclick="decreaseQty('Artificial Coral Decor')">−</button>
-  <span id="qty-Aquarium Air Stone">0</span>
-  <button onclick="addToCart('Artificial Coral Decor',499)">+</button>
+    <div class="qty-box">
+      <button onclick="decreaseQty('Artificial Coral Decor')">−</button>
+      <span id="qty-Artificial Coral Decor">0</span>
+      <button onclick="addToCart('Artificial Coral Decor',499)">+</button>
+    </div>
   </div>
 
 </div>
 
-<!-- CART BAR -->
 <div class="cart">
   <div class="cart-summary" id="cartSummary">
     Cart: 0 items | Total ₹0
   </div>
-  <button onclick="sendWhatsAppOrder()">
-    Send Order on WhatsApp
-  </button>
+  <button onclick="sendWhatsAppOrder()">Send Order on WhatsApp</button>
 </div>
+
+<a class="whatsapp-float"
+   href="https://wa.me/917639348470?text=Hi%20Alpha%20Dudes%20🐠%0AI%20have%20an%20enquiry%20about%20your%20aquarium%20products"
+   target="_blank">💬</a>
+
 <script>
 let cart = [];
 
+function filterCategory(cat, btn) {
+  document.querySelectorAll(".categories button").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+
+  document.querySelectorAll(".product").forEach(p => {
+    p.style.display = (cat === "all" || p.classList.contains(cat)) ? "block" : "none";
+  });
+}
+
 function addToCart(name, price) {
-  const item = cart.find(p => p.name === name);
-  if (item) {
-    item.qty++;
-  } else {
-    cart.push({ name, price, qty: 1 });
-  }
+  const item = cart.find(i => i.name === name);
+  if (item) item.qty++;
+  else cart.push({ name, price, qty: 1 });
   updateCart();
 }
 
 function decreaseQty(name) {
-  const item = cart.find(p => p.name === name);
+  const item = cart.find(i => i.name === name);
   if (!item) return;
-
   item.qty--;
-  if (item.qty <= 0) {
-    cart = cart.filter(p => p.name !== name);
-  }
+  if (item.qty <= 0) cart = cart.filter(i => i.name !== name);
   updateCart();
 }
 
 function updateCart() {
-  let items = 0;
-  let total = 0;
+  let items = 0, total = 0;
 
   cart.forEach(i => {
     items += i.qty;
-    total += i.price * i.qty;
-
-    const qtySpan = document.getElementById("qty-" + i.name);
-    if (qtySpan) qtySpan.innerText = i.qty;
+    total += i.qty * i.price;
+    document.getElementById("qty-" + i.name).innerText = i.qty;
   });
 
-  // Reset qty display for removed items
-  document.querySelectorAll(".qty-box span").forEach(span => {
-    if (!cart.find(i => "qty-" + i.name === span.id)) {
-      span.innerText = 0;
-    }
+  document.querySelectorAll(".qty-box span").forEach(s => {
+    if (!cart.find(i => "qty-" + i.name === s.id)) s.innerText = 0;
   });
 
   document.getElementById("cartSummary").innerText =
@@ -247,24 +257,14 @@ function sendWhatsAppOrder() {
   }
 
   let msg = "Hi Alpha Dudes 🐠%0AOrder Details:%0A";
-
   cart.forEach((i, n) => {
-    msg += `${n + 1}. ${i.name} x ${i.qty} = Rs ${i.price * i.qty}%0A`;
+    msg += `${n+1}. ${i.name} x ${i.qty} = Rs ${i.qty*i.price}%0A`;
   });
+  msg += `%0ATotal Amount: Rs ${cart.reduce((s,i)=>s+i.qty*i.price,0)}`;
 
-  msg += `%0ATotal Amount: Rs ${cart.reduce((s, i) => s + i.price * i.qty, 0)}`;
-
-  window.open(
-    "https://wa.me/91XXXXXXXXXX?text=" + msg,
-    "_blank"
-  );
+  window.open("https://wa.me/917639348470?text=" + msg, "_blank");
 }
 </script>
-<a href="https://wa.me/917639348470?text=Hi%20Alpha%20Dudes%20🐠%0AI%20have%20a%20question%20about%20your%20aquarium%20products"
-   class="whatsapp-float"
-   target="_blank"
-   aria-label="Chat on WhatsApp">
-  💬
-</a>
+
 </body>
 </html>
