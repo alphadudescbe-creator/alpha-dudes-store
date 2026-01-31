@@ -171,7 +171,6 @@ header {
     Send Order on WhatsApp
   </button>
 </div>
-
 <script>
 let cart = [];
 
@@ -224,12 +223,11 @@ function sendWhatsAppOrder() {
   msg += `%0ATotal Amount: Rs ${cart.reduce((s, i) => s + i.price * i.qty, 0)}`;
 
   window.open(
-    "https://wa.me/917639348470?text=" + msg,
+    "https://wa.me/91XXXXXXXXXX?text=" + msg,
     "_blank"
   );
 }
 </script>
-
 <a href="https://wa.me/917639348470?text=Hi%20Alpha%20Dudes%20🐠%0AI%20have%20a%20question%20about%20your%20aquarium%20products"
    class="whatsapp-float"
    target="_blank"
