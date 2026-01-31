@@ -90,6 +90,26 @@ header {
   font-size: 14px;
   margin-bottom: 8px;
 }
+  .whatsapp-float {
+  position: fixed;
+  bottom: 90px;
+  right: 18px;
+  background: #25D366;
+  color: #fff;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  text-decoration: none;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+  z-index: 999;
+}
+.whatsapp-float:active {
+  opacity: 0.85;
+}
 </style>
 </head>
 
@@ -204,6 +224,11 @@ function sendWhatsAppOrder() {
   );
 }
 </script>
-
+<a href="https://wa.me/917639348470?text=Hi%20Alpha%20Dudes%20🐠%0AI%20have%20a%20question%20about%20your%20aquarium%20products"
+   class="whatsapp-float"
+   target="_blank"
+   aria-label="Chat on WhatsApp">
+  💬
+</a>
 </body>
 </html>
