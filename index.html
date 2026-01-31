@@ -17,6 +17,25 @@ header {
   text-align: center;
   padding: 18px;
 }
+.categories {
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+  overflow-x: auto;
+  background: #fff;
+}
+.categories button {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 20px;
+  background: #e6f4ff;
+  font-weight: bold;
+}
+.categories button.active {
+  background: #0077b6;
+  color: #fff;
+}
 .container {
   padding: 12px;
 }
@@ -81,10 +100,18 @@ header {
   <p>Aquarium Toys & Accessories</p>
 </header>
 
+<!-- CATEGORY BUTTONS -->
+<div class="categories">
+  <button class="active" onclick="filterCategory('all', this)">All</button>
+  <button onclick="filterCategory('toys', this)">🧸 Toys</button>
+  <button onclick="filterCategory('accessories', this)">⚙️ Accessories</button>
+  <button onclick="filterCategory('decor', this)">🪸 Decor</button>
+</div>
+
 <div class="container">
 
-  <!-- PRODUCT 1 -->
-  <div class="product">
+  <!-- TOYS -->
+  <div class="product toys">
     <img src="https://via.placeholder.com/400x250?text=Floating+Fish+Toy">
     <h2>Floating Fish Toy</h2>
     <div class="price">₹299</div>
@@ -93,12 +120,22 @@ header {
     </button>
   </div>
 
-  <!-- PRODUCT 2 -->
-  <div class="product">
+  <!-- ACCESSORIES -->
+  <div class="product accessories">
     <img src="https://via.placeholder.com/400x250?text=Aquarium+Air+Stone">
     <h2>Aquarium Air Stone</h2>
     <div class="price">₹199</div>
     <button class="add-btn" onclick="addToCart('Aquarium Air Stone',199)">
+      Add to Cart
+    </button>
+  </div>
+
+  <!-- DECOR -->
+  <div class="product decor">
+    <img src="https://via.placeholder.com/400x250?text=Aquarium+Decor">
+    <h2>Artificial Coral Decor</h2>
+    <div class="price">₹499</div>
+    <button class="add-btn" onclick="addToCart('Artificial Coral Decor',499)">
       Add to Cart
     </button>
   </div>
@@ -118,25 +155,35 @@ header {
 <script>
 let cart = [];
 
+function filterCategory(category, btn) {
+  document.querySelectorAll(".categories button")
+    .forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+
+  document.querySelectorAll(".product").forEach(p => {
+    if (category === "all" || p.classList.contains(category)) {
+      p.style.display = "block";
+    } else {
+      p.style.display = "none";
+    }
+  });
+}
+
 function addToCart(name, price) {
   const item = cart.find(p => p.name === name);
-  if (item) {
-    item.qty += 1;
-  } else {
-    cart.push({ name, price, qty: 1 });
-  }
+  if (item) item.qty++;
+  else cart.push({ name, price, qty: 1 });
   updateCart();
 }
 
 function updateCart() {
-  let totalItems = 0;
-  let totalPrice = 0;
-  cart.forEach(item => {
-    totalItems += item.qty;
-    totalPrice += item.price * item.qty;
+  let items = 0, total = 0;
+  cart.forEach(i => {
+    items += i.qty;
+    total += i.price * i.qty;
   });
   document.getElementById("cartSummary").innerText =
-    `Cart: ${totalItems} items | Total ₹${totalPrice}`;
+    `Cart: ${items} items | Total ₹${total}`;
 }
 
 function sendWhatsAppOrder() {
@@ -145,16 +192,14 @@ function sendWhatsAppOrder() {
     return;
   }
 
-  let message = "Hi Alpha Dudes 🐠%0AOrder Details:%0A";
-  cart.forEach((item, i) => {
-    message += `${i+1}. ${item.name} x ${item.qty} = Rs ${item.price * item.qty}%0A`;
+  let msg = "Hi Alpha Dudes 🐠%0AOrder Details:%0A";
+  cart.forEach((i, n) => {
+    msg += `${n+1}. ${i.name} x ${i.qty} = Rs ${i.price*i.qty}%0A`;
   });
-
-  let total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
-  message += `%0ATotal Amount: Rs ${total}`;
+  msg += `%0ATotal Amount: Rs ${cart.reduce((s,i)=>s+i.price*i.qty,0)}`;
 
   window.open(
-    "https://wa.me/917639348470?text=" + message,
+    "https://wa.me/917639348470?text=" + msg,
     "_blank"
   );
 }
