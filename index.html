@@ -110,6 +110,26 @@ header {
 .whatsapp-float:active {
   opacity: 0.85;
 }
+  .qty-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+.qty-box button {
+  width: 42px;
+  height: 36px;
+  border: none;
+  border-radius: 6px;
+  font-size: 18px;
+  font-weight: bold;
+  background: #0077b6;
+  color: #fff;
+}
+.qty-box span {
+  font-size: 16px;
+  font-weight: bold;
+}
 </style>
 </head>
 
@@ -135,29 +155,31 @@ header {
     <img src="https://via.placeholder.com/400x250?text=Floating+Fish+Toy">
     <h2>Floating Fish Toy</h2>
     <div class="price">₹299</div>
-    <button class="add-btn" onclick="addToCart('Floating Fish Toy',299)">
-      Add to Cart
-    </button>
-  </div>
+    <div class="qty-box">
+  <button onclick="decreaseQty('Floating Fish Toy')">−</button>
+  <span id="qty-Floating Fish Toy">0</span>
+  <button onclick="addToCart('Floating Fish Toy',299)">+</button>
+</div>
 
   <!-- ACCESSORIES -->
   <div class="product accessories">
     <img src="https://via.placeholder.com/400x250?text=Aquarium+Air+Stone">
     <h2>Aquarium Air Stone</h2>
     <div class="price">₹199</div>
-    <button class="add-btn" onclick="addToCart('Aquarium Air Stone',199)">
-      Add to Cart
-    </button>
-  </div>
-
+    <div class="qty-box">
+  <button onclick="decreaseQty('Aquarium Air Stone')">−</button>
+  <span id="qty-Aquarium Air Stone">0</span>
+  <button onclick="addToCart('Aquarium Air Stone',199)">+</button>
+</div>
+    
   <!-- DECOR -->
   <div class="product decor">
     <img src="https://via.placeholder.com/400x250?text=Aquarium+Decor">
     <h2>Artificial Coral Decor</h2>
     <div class="price">₹499</div>
-    <button class="add-btn" onclick="addToCart('Artificial Coral Decor',499)">
-      Add to Cart
-    </button>
+    <button onclick="decreaseQty('Artificial Coral Decor')">−</button>
+  <span id="qty-Aquarium Air Stone">0</span>
+  <button onclick="addToCart('Artificial Coral Decor',499)">+</button>
   </div>
 
 </div>
@@ -202,6 +224,16 @@ function updateCart() {
   cart.forEach(i => {
     items += i.qty;
     total += i.price * i.qty;
+
+    const qtySpan = document.getElementById("qty-" + i.name);
+    if (qtySpan) qtySpan.innerText = i.qty;
+  });
+
+  // Reset qty display for removed items
+  document.querySelectorAll(".qty-box span").forEach(span => {
+    if (!cart.find(i => "qty-" + i.name === span.id)) {
+      span.innerText = 0;
+    }
   });
 
   document.getElementById("cartSummary").innerText =
@@ -217,7 +249,7 @@ function sendWhatsAppOrder() {
   let msg = "Hi Alpha Dudes 🐠%0AOrder Details:%0A";
 
   cart.forEach((i, n) => {
-    msg += `${n + 1}. ${i.name}  x ${i.qty}  = Rs ${i.price * i.qty}%0A`;
+    msg += `${n + 1}. ${i.name} x ${i.qty} = Rs ${i.price * i.qty}%0A`;
   });
 
   msg += `%0ATotal Amount: Rs ${cart.reduce((s, i) => s + i.price * i.qty, 0)}`;
