@@ -6,84 +6,136 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <style>
+    * {
+      box-sizing: border-box;
+    }
     body {
-      font-family: Arial, sans-serif;
       margin: 0;
-      background: #f4f9fb;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial;
+      background: #f1f9ff;
+      color: #333;
     }
     header {
-      background: #0b5ed7;
-      color: #fff;
-      padding: 16px;
+      background: linear-gradient(135deg, #0077b6, #0096c7);
+      color: white;
+      padding: 20px 16px;
       text-align: center;
     }
-    .tagline {
-      font-size: 14px;
-      opacity: 0.9;
+    header h1 {
+      margin: 0;
+      font-size: 26px;
     }
+    header p {
+      margin: 6px 0 0;
+      font-size: 14px;
+      opacity: 0.95;
+    }
+
+    .container {
+      padding: 12px;
+    }
+
     .product {
       background: #fff;
-      margin: 16px;
-      padding: 16px;
-      border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      border-radius: 14px;
+      padding: 14px;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     }
+
     .product img {
       width: 100%;
-      max-width: 320px;
-      border-radius: 8px;
+      border-radius: 12px;
+      margin-bottom: 10px;
     }
+
+    .product h2 {
+      font-size: 18px;
+      margin: 4px 0;
+    }
+
+    .product p {
+      font-size: 14px;
+      margin: 6px 0;
+      color: #555;
+    }
+
     .price {
+      font-size: 16px;
       font-weight: bold;
       margin-top: 8px;
     }
-    .btn {
-      display: inline-block;
+
+    .order-btn {
+      display: block;
+      width: 100%;
+      text-align: center;
       background: #25D366;
-      color: #fff;
-      padding: 12px 18px;
+      color: white;
+      padding: 14px;
+      border-radius: 10px;
       text-decoration: none;
-      border-radius: 6px;
-      margin-top: 12px;
+      font-size: 16px;
       font-weight: bold;
+      margin-top: 12px;
+    }
+
+    .order-btn:active {
+      opacity: 0.85;
+    }
+
+    footer {
+      text-align: center;
+      padding: 16px;
+      font-size: 13px;
+      color: #777;
     }
   </style>
 </head>
+
 <body>
 
 <header>
-  <h1>Alpha Dudes</h1>
-  <p class="tagline">Aquarium Toys & Accessories</p>
-  <p>Order directly on WhatsApp</p>
+  <h1>Alpha Dudes 🐠</h1>
+  <p>Aquarium Toys & Accessories</p>
+  <p>Order easily on WhatsApp</p>
 </header>
 
-<!-- PRODUCT 1 -->
-<div class="product">
-  <img src="https://via.placeholder.com/320x200?text=Aquarium+Toy">
-  <h2>Floating Fish Toy</h2>
-  <p>Safe, colorful floating toy for aquariums</p>
-  <p class="price">Price: ₹299</p>
+<div class="container">
 
-  <a class="btn"
-     href="https://wa.me/917639348470?text=Hi%20Alpha%20Dudes%2C%20I%20want%20to%20order%20Floating%20Fish%20Toy%20Price%20Rs%20299"
-     target="_blank">
-     Order on WhatsApp
-  </a>
+  <!-- PRODUCT 1 -->
+  <div class="product">
+    <img src="https://via.placeholder.com/400x250?text=Floating+Fish+Toy">
+    <h2>Floating Fish Toy</h2>
+    <p>Colorful floating toy that keeps fish active and playful.</p>
+    <div class="price">₹299</div>
+
+    <a class="order-btn"
+       href="https://wa.me/917639348470?text=Hi%20Alpha%20Dudes%20🐠%0AI%20want%20to%20order:%0AProduct:%20Floating%20Fish%20Toy%0APrice:%20Rs%20299"
+       target="_blank">
+       Order on WhatsApp
+    </a>
+  </div>
+
+  <!-- PRODUCT 2 -->
+  <div class="product">
+    <img src="https://via.placeholder.com/400x250?text=Aquarium+Air+Stone">
+    <h2>Aquarium Air Stone</h2>
+    <p>Improves oxygen circulation inside the aquarium.</p>
+    <div class="price">₹199</div>
+
+    <a class="order-btn"
+       href="https://wa.me/917639348470?text=Hi%20Alpha%20Dudes%20🐠%0AI%20want%20to%20order:%0AProduct:%20Aquarium%20Air%20Stone%0APrice:%20Rs%20199"
+       target="_blank">
+       Order on WhatsApp
+    </a>
+  </div>
+
 </div>
 
-<!-- PRODUCT 2 -->
-<div class="product">
-  <img src="https://via.placeholder.com/320x200?text=Aquarium+Accessory">
-  <h2>Aquarium Air Stone</h2>
-  <p>Improves oxygen flow inside the tank</p>
-  <p class="price">Price: ₹199</p>
-
-  <a class="btn"
-     href="https://wa.me/917639348470?text=Hi%20Alpha%20Dudes%2C%20I%20want%20to%20order%20Aquarium%20Air%20Stone%20Price%20Rs%20199"
-     target="_blank">
-     Order on WhatsApp
-  </a>
-</div>
+<footer>
+  © Alpha Dudes • WhatsApp Orders Only
+</footer>
 
 </body>
 </html>
